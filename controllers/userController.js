@@ -6,7 +6,6 @@ const bcrypt = require("bcrypt");
 // @desc regsiter User
 // @router api/users
 // @access public
-
 const registerUser = asyncHandler(async(req, res) => {
     
     const { username, email, password } = req.body;
@@ -24,13 +23,13 @@ const registerUser = asyncHandler(async(req, res) => {
     //Hash password
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log("hashedPassword " , hashedPassword);
+    
     const user = await User.create({
         username,
         email,
         password: hashedPassword
     });
-    console.log(`User Created Successfully - `, user);
+    
     if(user) {
         res.status(201).json({_id: user.id, email: user.email});
     } else {
@@ -53,7 +52,6 @@ const loginUser = asyncHandler(async(req, res) => {
     const user = await User.findOne({ email });
 
     //compare password with hashed Password
-
     if(user && await (bcrypt.compare(password, user.password))) {
         const accessToken = jwt.sign({
             user: {
