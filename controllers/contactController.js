@@ -32,30 +32,27 @@ const createContact = asyncHandler(async (req, res) => {
 // @router PUT /api/contacts/:id
 // @access private
 const updateContact = asyncHandler(async (req, res) => {
-  console.log('contact called')
   const contactId = req.params.id;
   const allContacts = await Contact.find();
   const contact = allContacts.find((c) => c.id === contactId);
-  console.log('contact found ', contact)
+  
   if(!contact) {
     res.status(404);
     throw new Error("Contact not found"); 
   }
   
-  console.log(contact.user_id.toString() , ' s ', req.user.id);
-
   if (contact.user_id.toString() !== req.user.id) {
     res.status(404);
     throw new Error("User don't have permission to update other user contacts");
   }
 
-  const updatedContact = await Contact.findOneAndUpdate(
+  const updatedContact = await Contact.findByIdAndUpdate(
     { _id:  contactId },
     { $set: req.body },
     { new: true}
   );
-  console.log( ' updated- ',updateContact);
-  res.status(200).send(updateContact);
+  console.log( ' contact updated- ',updateContact);
+  res.status(200).send(' contact updated' ,updateContact);
 });
 
 // @desc Delete Contact
