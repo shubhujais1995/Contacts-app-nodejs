@@ -3,7 +3,7 @@ const express = require("express");
 const errorHandler = require("./middleware/errorHandler");
 const connectDb = require("./config/dbConnection");
 const dotenv = require("dotenv").config();
-const path = require("Path");
+
 connectDb();
 const app = express();
 
@@ -21,10 +21,6 @@ app.use(errorHandler); //middleware for getting error properly
 app.get('/', (req, res) => {
     res.send("<h1>Hello</h1>");
 });
-app.get('/search', (req, res) => {
-        res.header("Content-type", "application/json");
-        res.sendFile(path.resolve("data.json"));
-})
 
 app.listen(port, () => {
     console.log(`Express Listening on port ${port}`);
