@@ -18,6 +18,9 @@ app.use("/api/contacts", require("./routes/contactRoutes")); //use is a middlewa
 app.use("/api/users", require("./routes/userRoutes"));
 app.use(errorHandler); //middleware for getting error properly
 
+app.get('/', (req, res) => {
+    res.send("<h1>Hello</h1>");
+});
 app.get('/search', (req, res) => {
         res.header("Content-type", "application/json");
         res.sendFile(path.resolve("data.json"));
